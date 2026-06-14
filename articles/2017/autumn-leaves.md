@@ -3,7 +3,7 @@ title: "There is a if in life"
 slug: "autumn-leaves"
 date: "2017-10-31"
 category: "self help"
-image: ""
+image: "/static/images/autumn-leaves.jpg"
 excerpt: "I like autumn, love the way the landscape changes to so many shades of yellow ad green. The sound of leaves crumbling under my feet made me ask myself so many questions.  Not long ago a tiny fresh"
 tags: []
 ---

@@ -3,7 +3,7 @@ title: "Oh no! what is that?"
 slug: "oh-no-what-is-that"
 date: "2024-03-16"
 category: "self help"
-image: ""
+image: "/static/images/oh-no-what-is-that.jpeg"
 excerpt: "**Fear** In a nutshell “The perceived possibility of harm”.  It's funny how with age this little thing governs how we live. We are told we mature with age. Wine matures with age, humans just become"
 tags: []
 ---

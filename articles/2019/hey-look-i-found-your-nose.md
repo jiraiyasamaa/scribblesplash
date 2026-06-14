@@ -3,7 +3,7 @@ title: "Hey look! I found your nose!"
 slug: "hey-look-i-found-your-nose"
 date: "2019-05-03"
 category: "psychology"
-image: ""
+image: "/static/images/hey-look-i-found-your-nose.jpg"
 excerpt: "I came across this topic of a lady who seemed to be educated and pretty much aware of current ongoings pried upon a young woman about her clothes and said somethings that infuriated a whole bunch of"
 tags: []
 ---

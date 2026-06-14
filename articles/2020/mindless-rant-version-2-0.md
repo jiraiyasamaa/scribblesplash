@@ -3,7 +3,7 @@ title: "Mindless rant version 2.0"
 slug: "mindless-rant-version-2-0"
 date: "2020-02-22"
 category: "the borderless world"
-image: ""
+image: "/static/images/mindless-rant-version-2-0.jpeg"
 excerpt: "Run to the rescue with love and peace will follow. Joaquin quoted his brother after getting an Oscar for playing the Joker. A decade ago when Slater left those shoes behind after Nolan’s “Dark"
 tags: []
 ---

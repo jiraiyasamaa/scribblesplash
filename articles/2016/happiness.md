@@ -3,7 +3,7 @@ title: "HAPPINESS"
 slug: "happiness"
 date: "2016-01-07"
 category: "self help"
-image: ""
+image: "/static/images/happiness.jpg"
 excerpt: "**What is”Happiness”?** Indeed the most confusing question having infinite vertices. It seems to be a simple word. But is it really that simple?  For some people, it may be love, for some it is their"
 tags: []
 ---

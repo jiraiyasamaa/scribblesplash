@@ -3,7 +3,7 @@ title: "Are you dead yet?"
 slug: "are-you-dead-yet"
 date: "2021-05-19"
 category: "life"
-image: ""
+image: "/static/images/are-you-dead-yet.jpg"
 excerpt: "It's been what? More than a year since the world went down the pooper? More than that? Yep, sounds about right.  Come to think of it, I remember thinking - I guess last year - that I would get to"
 tags: []
 ---

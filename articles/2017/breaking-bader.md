@@ -3,7 +3,7 @@ title: "Breaking Bad(er)?"
 slug: "breaking-bader"
 date: "2017-08-14"
 category: "life"
-image: ""
+image: "/static/images/breaking-bader.jpg"
 excerpt: "Saying 'goodbye' is not always easy.  In fact, sometimes it is one of the most difficult things we have to do in order to move on with our own life in healthy ways.    Letting go of a long-term"
 tags: []
 ---

@@ -3,7 +3,7 @@ title: "Meeting a kangaroo on the beach!"
 slug: "meeting-a-kangaroo-on-the-beach"
 date: "2017-12-10"
 category: "Meeting with!"
-image: ""
+image: "/static/images/meeting-a-kangaroo-on-the-beach.jpg"
 excerpt: "Of what little travels I have done so far in life, I was lucky enough to meet a diverse people, oh boy I love to say “a People”, and noted some of the big etiquette differences between international"
 tags: []
 ---

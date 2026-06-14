@@ -3,7 +3,7 @@ title: "Super He/Him"
 slug: "pov"
 date: "2025-07-11"
 category: "Reviews"
-image: ""
+image: "/static/images/pov.png"
 excerpt: "Did DC moviemakers just figure out the formula needed to make their movies as good as their animation movies? Or Is it a flash in the pan like gal Gadot's Wonder Woman. Well, it was Patty Jenkins'"
 tags: []
 ---

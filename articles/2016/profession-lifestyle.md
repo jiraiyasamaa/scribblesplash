@@ -3,7 +3,7 @@ title: "Profession = lifestyle!"
 slug: "profession-lifestyle"
 date: "2016-05-03"
 category: ""
-image: ""
+image: "/static/images/profession-lifestyle.jpg"
 excerpt: "So this lady in her early thirties, lost her husband a few years ago. She has two small kids, and now works in a field of some farmer for daily wages. What can be so special about today's story?"
 tags: []
 ---

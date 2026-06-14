@@ -3,7 +3,7 @@ title: "To be what we choose to be, or not"
 slug: "to-be-what-we-choose-to-be-or-not"
 date: "2016-02-25"
 category: "awareness"
-image: ""
+image: "/static/images/to-be-what-we-choose-to-be-or-not.jpg"
 excerpt: "Trending a while ago was a picture of a young lady standing casually in front of a poster of an Indian film, There was a silent cheer all over the place, people acknowledging the fact that one"
 tags: []
 ---

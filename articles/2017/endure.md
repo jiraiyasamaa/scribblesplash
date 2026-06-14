@@ -3,7 +3,7 @@ title: "Endure!"
 slug: "endure"
 date: "2017-08-19"
 category: "life"
-image: ""
+image: "/static/images/endure.jpg"
 excerpt: "The winds swept everything that dared to stand in its way, mercilessly uprooting age old trees that had children swinging on their branches and birds coming back home in the evening to their loved"
 tags: []
 ---

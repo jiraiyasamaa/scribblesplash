@@ -3,7 +3,7 @@ title: "Ja?  Ist das Leben zu Schwer?"
 slug: "ja-ist-das-leben-zu-schwer"
 date: "2017-03-31"
 category: "life"
-image: ""
+image: "/static/images/ja-ist-das-leben-zu-schwer.jpeg"
 excerpt: "Wie schwer ist es, einfach aufzustehen und die Verantwortung zu übernehmen, für die Fehler wir bisher gemacht haben? Wie schwer ist es nur zu sagen, ja ich kann mich gut ändern, ich kann in meinem"
 tags: []
 ---

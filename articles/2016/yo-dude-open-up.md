@@ -3,7 +3,7 @@ title: "Yo dude! Open up!"
 slug: "yo-dude-open-up"
 date: "2016-03-29"
 category: ""
-image: ""
+image: "/static/images/yo-dude-open-up.jpg"
 excerpt: "**Depression** is a condition that can strike anyone at any point, it is debilitating and can make the sufferer want to isolate themselves and become non-communicative.  I have seen various instances"
 tags: []
 ---

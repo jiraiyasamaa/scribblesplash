@@ -3,12 +3,12 @@ title: "monkey see Monkey do"
 slug: "monkey-see-monkey-do"
 date: "2015-05-12"
 category: "life"
-image: ""
-excerpt: "[![monkey_see_do](https://scribblesplash.com/wp-content/uploads/2015/05/monkey_see_do.gif?w=300)](https://scribblesplash.com/wp-content/uploads/2015/05/monkey_see_do.gif)  In a previous article we"
+image: "/static/images/monkey-see-monkey-do.gif"
+excerpt: "In a previous article we slightly touched the topic on how the mass media is responsible for wiping our brains clean and filling in tailored thoughts."
 tags: []
 ---
 
-[![monkey_see_do](https://scribblesplash.com/wp-content/uploads/2015/05/monkey_see_do.gif?w=300)](https://scribblesplash.com/wp-content/uploads/2015/05/monkey_see_do.gif)
+[![monkey_see_do](/static/images/monkey-see-monkey-do.gif?w=300)](/static/images/monkey-see-monkey-do.gif)
 
 In a previous article we slightly touched the topic on how the mass media is responsible for wiping our brains clean and filling in tailored thoughts. Let’s peek into the immense power of suggestion.
 

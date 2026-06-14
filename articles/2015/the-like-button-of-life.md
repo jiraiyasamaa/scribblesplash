@@ -3,12 +3,12 @@ title: "The \"like\" button of life"
 slug: "the-like-button-of-life"
 date: "2015-08-27"
 category: "life"
-image: ""
-excerpt: "[![tumblr_lu4burXUZQ1qfw83xo1_500](https://scribblesplash.com/wp-content/uploads/2015/08/tumblr_lu4burxuzq1qfw83xo1_500.jpg?w=300)](https://scribblesplash.com/wp-content/uploads/2015/08/tumblr_lu4burx"
+image: "/static/images/the-like-button-of-life.jpg"
+excerpt: "A while ago I was out driving through the city. I was in the mood so I just turned up the music put on some Rock and roll from the 80's and I was in my own world of bliss."
 tags: []
 ---
 
-[![tumblr_lu4burXUZQ1qfw83xo1_500](https://scribblesplash.com/wp-content/uploads/2015/08/tumblr_lu4burxuzq1qfw83xo1_500.jpg?w=300)](https://scribblesplash.com/wp-content/uploads/2015/08/tumblr_lu4burxuzq1qfw83xo1_500.jpg)
+[![tumblr_lu4burXUZQ1qfw83xo1_500](/static/images/the-like-button-of-life.jpg?w=300)](/static/images/the-like-button-of-life.jpg)
 
 A while ago I was out driving through the city. I was in the mood so I just turned up the music put on some Rock and roll from the 80's and I was in my own world of bliss. My version of letting off the steam.
 It began raining soon and it all got even more nostalgic. The music, the cool fragrant air in my car, the rain, the greenery around me. As I took a turn on my way back I saw a man. Must've been in his 50's. Had a rag of a coat, some tethered pants, grizzly Grey beard and shabby hair. He had eyes that spoke loudly, they had much melancholy and longing, it was not more than a few seconds that I had a glimpse of this guy. But so much had been spoken already, I could clearly see he had had a good life and somehow on his way down the road he got hit by destiny and his world must've fallen apart.

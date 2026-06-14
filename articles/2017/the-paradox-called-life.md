@@ -3,7 +3,7 @@ title: "The paradox called life"
 slug: "the-paradox-called-life"
 date: "2017-03-15"
 category: "Poems"
-image: ""
+image: "/static/images/the-paradox-called-life.jpeg"
 excerpt: "I stumbled across this gem.  Gulzar saab has always made the art of expression of such complexities of life look like cake walk.   Intrigued, I spent a moment, tried to take what little my"
 tags: []
 ---

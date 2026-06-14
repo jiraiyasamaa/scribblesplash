@@ -3,7 +3,7 @@ title: "Finally found God!"
 slug: "finally-found-god"
 date: "2015-10-26"
 category: "awareness"
-image: ""
+image: "/static/images/finally-found-god.jpg"
 excerpt: "Ready for a roller coaster ride? Clench up those nuggets!  We have those religious fanatics who yell at the top of their voices to promote and market their version of  god. why versions? well let me"
 tags: []
 ---

@@ -154,19 +154,6 @@ func (s *Server) handleHome(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	archive := s.store.GetArticlesByYear()
-	years := make([]int, 0, len(archive))
-	for y := range archive {
-		years = append(years, y)
-	}
-	for i := 0; i < len(years); i++ {
-		for j := i + 1; j < len(years); j++ {
-			if years[i] < years[j] {
-				years[i], years[j] = years[j], years[i]
-			}
-		}
-	}
-
 	cards := make([]ArticleCard, len(recent))
 	for i, a := range recent {
 		cards[i] = ArticleCard{
@@ -185,31 +172,11 @@ func (s *Server) handleHome(w http.ResponseWriter, r *http.Request) {
 		Description  string
 		Articles     []ArticleCard
 		CurrentIssue interface{}
-		ArchiveYears []int
-		Archive      map[int][]ArticleCard
 	}{
 		Title:        "Scribblesplash — The Borderless World",
 		Description:  "An anthropological movement dedicated to the celebration of humanity as one species.",
 		Articles:     cards,
 		CurrentIssue: currentIssue,
-		ArchiveYears: years,
-		Archive:      make(map[int][]ArticleCard),
-	}
-
-	for y, arts := range archive {
-		cards := make([]ArticleCard, len(arts))
-		for i, a := range arts {
-			cards[i] = ArticleCard{
-				Title:     a.Title,
-				Slug:      a.Slug,
-				Date:      a.FormattedDate(),
-				Excerpt:   a.Excerpt,
-				Category:  a.Category,
-				ImageURL:  a.ImageURL,
-				WordCount: a.WordCount,
-			}
-		}
-		data.Archive[y] = cards
 	}
 
 	s.render(w, "home.html", data)

@@ -48,23 +48,4 @@
     </div>
   </div>
 </section>
-
-<section class="section archive-preview">
-  <div class="container">
-    <h2 class="section-title">From the Archive</h2>
-    <div class="archive-years">
-      {{range .ArchiveYears}}
-      <div class="archive-year-group">
-        <h3 class="archive-year">{{.}}</h3>
-        <div class="archive-year-articles">
-          {{range $a := index $.Archive .}}
-          <a href="/article/{{$a.Slug}}" class="archive-link">{{$a.Title}}</a>
-          {{end}}
-        </div>
-      </div>
-      {{end}}
-    </div>
-    <a href="/archive" class="btn">View Full Archive →</a>
-  </div>
-</section>
 {{end}}

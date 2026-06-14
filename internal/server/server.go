@@ -21,6 +21,8 @@ type Server struct {
 	comments     *comments.Manager
 	tmpl         *template.Template
 	templatesDir string
+	admin        *Admin
+	RepoDir      string
 }
 
 func New(store *storage.Store, cm *comments.Manager, templatesDir string) (*Server, error) {
@@ -45,6 +47,7 @@ func New(store *storage.Store, cm *comments.Manager, templatesDir string) (*Serv
 		comments:     cm,
 		tmpl:         tmpl,
 		templatesDir: templatesDir,
+		admin:        NewAdmin("articles"),
 	}, nil
 }
 
@@ -74,6 +77,15 @@ func (s *Server) Routes() http.Handler {
 
 	mux.HandleFunc("POST /api/article/{slug}/like", s.handleLike)
 	mux.HandleFunc("POST /api/article/{slug}/comment", s.handleComment)
+
+	// Admin routes
+	mux.HandleFunc("GET /admin/login", s.handleAdminLogin)
+	mux.HandleFunc("POST /admin/login", s.handleAdminLogin)
+	mux.HandleFunc("GET /admin", s.adminMiddleware(s.handleAdminDashboard))
+	mux.HandleFunc("GET /admin/new", s.adminMiddleware(s.handleAdminNew))
+	mux.HandleFunc("POST /admin/new", s.adminMiddleware(s.handleAdminNew))
+	mux.HandleFunc("GET /admin/edit/{slug}", s.adminMiddleware(s.handleAdminEdit))
+	mux.HandleFunc("POST /admin/edit/{slug}", s.adminMiddleware(s.handleAdminEdit))
 
 	fs := http.FileServer(http.Dir("static"))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))

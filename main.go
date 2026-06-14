@@ -5,8 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
-
 	"scribblesplash/internal/comments"
 	"scribblesplash/internal/server"
 	"scribblesplash/internal/storage"
@@ -34,10 +32,12 @@ func main() {
 		log.Fatalf("error initializing comments: %v", err)
 	}
 
+	cwd, _ := os.Getwd()
 	srv, err := server.New(store, cm, "templates")
 	if err != nil {
 		log.Fatalf("error creating server: %v", err)
 	}
+	srv.RepoDir = cwd
 
 	addr := fmt.Sprintf(":%s", port)
 	log.Printf("Scribblesplash running on http://localhost%s", addr)
@@ -45,5 +45,4 @@ func main() {
 	if err := http.ListenAndServe(addr, srv.Routes()); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
-	_ = filepath.Join
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{.Title}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #f5f0eb; color: #1a1a1a; }
+.header { background: #fff; border-bottom: 1px solid #d5ccc0; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #5c1f2b; text-transform: uppercase; letter-spacing: 2px; }
+.header a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #5c1f2b; text-decoration: none; }
+.header a:hover { color: #8b3a4a; }
+.content { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+.actions { margin-bottom: 1.5rem; }
+.btn { display: inline-block; padding: 0.6rem 1.25rem; background: #5c1f2b; color: #fff; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.btn:hover { background: #8b3a4a; }
+table { width: 100%; background: #fff; border: 1px solid #d5ccc0; border-radius: 4px; overflow: hidden; }
+th { background: #ede8e0; text-align: left; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #555; }
+td { padding: 0.7rem 1rem; border-top: 1px solid #d5ccc0; font-size: 0.9rem; }
+td a { color: #5c1f2b; text-decoration: none; }
+td a:hover { text-decoration: underline; }
+tr:hover td { background: #faf8f5; }
+.date { color: #888; font-size: 0.8rem; }
+.cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+.view-site { font-size: 0.8rem; color: #888; margin-top: 1.5rem; text-align: center; }
+.view-site a { color: #5c1f2b; }
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Scribblesplash</h1>
+<a href="/admin/new">+ New Article</a>
+</div>
+<div class="content">
+<div class="actions">
+<a href="/admin/new" class="btn">+ Write New Article</a>
+</div>
+{{if .Articles}}
+<table>
+<tr><th>Title</th><th>Date</th><th>Category</th></tr>
+{{range .Articles}}
+<tr>
+<td><a href="/admin/edit/{{.Slug}}">{{.Title}}</a></td>
+<td class="date">{{.Date}}</td>
+<td class="cat">{{.Category}}</td>
+</tr>
+{{end}}
+</table>
+{{else}}
+<p style="color: #888; text-align: center; padding: 3rem;">No articles yet.</p>
+{{end}}
+<div class="view-site"><a href="/" target="_blank">View site →</a></div>
+</div>
+</body>
+</html>

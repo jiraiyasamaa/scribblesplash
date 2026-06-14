@@ -60,6 +60,41 @@ func New(articlesDir string) (*Store, error) {
 	return s, nil
 }
 
+func (s *Store) Reload(articlesDir string) error {
+	s.Articles = nil
+	s.BySlug = make(map[string]*models.Article)
+
+	err := filepath.Walk(articlesDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() || !strings.HasSuffix(path, ".md") {
+			return nil
+		}
+		article, err := parseArticle(path)
+		if err != nil {
+			return fmt.Errorf("error parsing %s: %w", path, err)
+		}
+		s.Articles = append(s.Articles, *article)
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+
+	sort.Slice(s.Articles, func(i, j int) bool {
+		di, _ := time.Parse("2006-01-02", s.Articles[i].Date)
+		dj, _ := time.Parse("2006-01-02", s.Articles[j].Date)
+		return di.After(dj)
+	})
+
+	for i := range s.Articles {
+		s.BySlug[s.Articles[i].Slug] = &s.Articles[i]
+	}
+
+	return nil
+}
+
 func parseArticle(path string) (*models.Article, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {

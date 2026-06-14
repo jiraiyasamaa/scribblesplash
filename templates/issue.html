@@ -1,0 +1,25 @@
+{{template "base.html" .}}
+
+{{define "content"}}
+<section class="section issue-page">
+  <div class="container">
+    <h1 class="page-title">{{.IssueLabel}}</h1>
+    <p class="page-subtitle">The {{.IssueLabel}} issue of Scribblesplash.</p>
+    <div class="magazine-grid">
+      {{range .Articles}}
+      <article class="magazine-card">
+        <a href="/article/{{.Slug}}" class="card-link">
+          <div class="card-category">{{.Category}}</div>
+          <h3 class="card-title">{{.Title}}</h3>
+          <p class="card-excerpt">{{.Excerpt}}</p>
+          <div class="card-meta">
+            <span class="card-date">{{.Date}}</span>
+            <span class="card-reading">{{.WordCount}} words</span>
+          </div>
+        </a>
+      </article>
+      {{end}}
+    </div>
+  </div>
+</section>
+{{end}}

@@ -1,0 +1,70 @@
+{{template "base.html" .}}
+
+{{define "content"}}
+<section class="hero">
+  <div class="container">
+    <h1 class="hero-title">The Borderless World</h1>
+    <p class="hero-subtitle">An anthropological movement dedicated to the celebration of humanity as one species.</p>
+  </div>
+</section>
+
+{{if .CurrentIssue}}
+<section class="section current-issue">
+  <div class="container">
+    <h2 class="section-title">{{.CurrentIssue.Label}} Issue</h2>
+    <div class="magazine-grid">
+      {{range $i, $a := .CurrentIssue.Articles}}
+      <article class="magazine-card card-{{$i}}">
+        <a href="/article/{{$a.Slug}}" class="card-link">
+          <div class="card-category">{{$a.Category}}</div>
+          <h3 class="card-title">{{$a.Title}}</h3>
+          <p class="card-excerpt">{{$a.Excerpt}}</p>
+          <div class="card-meta">
+            <span class="card-date">{{$a.Date}}</span>
+            <span class="card-reading">{{$a.WordCount}} words</span>
+          </div>
+        </a>
+      </article>
+      {{end}}
+    </div>
+  </div>
+</section>
+{{end}}
+
+<section class="section recent-articles">
+  <div class="container">
+    <h2 class="section-title">Recent Articles</h2>
+    <div class="articles-list">
+      {{range .Articles}}
+      <article class="article-row">
+        <a href="/article/{{.Slug}}" class="article-row-link">
+          <span class="article-row-category">{{.Category}}</span>
+          <h3 class="article-row-title">{{.Title}}</h3>
+          <p class="article-row-excerpt">{{.Excerpt}}</p>
+          <span class="article-row-date">{{.Date}}</span>
+        </a>
+      </article>
+      {{end}}
+    </div>
+  </div>
+</section>
+
+<section class="section archive-preview">
+  <div class="container">
+    <h2 class="section-title">From the Archive</h2>
+    <div class="archive-years">
+      {{range .ArchiveYears}}
+      <div class="archive-year-group">
+        <h3 class="archive-year">{{.}}</h3>
+        <div class="archive-year-articles">
+          {{range $a := index $.Archive .}}
+          <a href="/article/{{$a.Slug}}" class="archive-link">{{$a.Title}}</a>
+          {{end}}
+        </div>
+      </div>
+      {{end}}
+    </div>
+    <a href="/archive" class="btn">View Full Archive →</a>
+  </div>
+</section>
+{{end}}

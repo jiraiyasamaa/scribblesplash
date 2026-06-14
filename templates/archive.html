@@ -1,0 +1,30 @@
+{{template "base.html" .}}
+
+{{define "content"}}
+<section class="section archive-page">
+  <div class="container">
+    <h1 class="page-title">Archive</h1>
+    <p class="page-subtitle">Every article published on Scribblesplash, from the very beginning.</p>
+
+    <div class="archive-timeline">
+      {{range .Years}}
+      <div class="archive-year-block">
+        <h2 class="archive-year-heading">{{.}}</h2>
+        <div class="archive-articles">
+          {{range index $.Archive .}}
+          <article class="archive-entry">
+            <a href="/article/{{.Slug}}" class="archive-entry-link">
+              <span class="archive-entry-category">{{.Category}}</span>
+              <h3 class="archive-entry-title">{{.Title}}</h3>
+              <p class="archive-entry-excerpt">{{.Excerpt}}</p>
+              <span class="archive-entry-date">{{.Date}}</span>
+            </a>
+          </article>
+          {{end}}
+        </div>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>
+{{end}}

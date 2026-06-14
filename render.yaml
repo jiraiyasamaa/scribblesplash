@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: scribblesplash
+    env: go
+    buildCommand: go build -o scribblesplash
+    startCommand: ./scribblesplash
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: GO_ENV
+        value: production

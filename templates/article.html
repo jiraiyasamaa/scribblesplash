@@ -1,0 +1,86 @@
+{{template "base.html" .}}
+
+{{define "content"}}
+<article class="article-full">
+  <div class="container article-container">
+    <header class="article-header">
+      <span class="article-category">{{.Article.Category}}</span>
+      <h1 class="article-title">{{.Article.Title}}</h1>
+      <div class="article-meta">
+        <span class="article-date">{{.Article.Date}}</span>
+        <span class="article-reading">{{.Article.ReadingTime}} min read · {{.Article.WordCount}} words</span>
+      </div>
+    </header>
+
+    {{if .Article.ImageURL}}
+    <figure class="article-figure">
+      <img src="{{.Article.ImageURL}}" alt="{{.Article.Title}}" class="article-image" loading="lazy">
+    </figure>
+    {{end}}
+
+    <div class="article-body">
+      {{.Article.BodyHTML}}
+    </div>
+
+    <footer class="article-footer">
+      <p class="article-author">— The Waterman</p>
+    </footer>
+
+    <div class="article-engagement">
+      <button class="like-btn" data-slug="{{.Article.Slug}}" {{if .Liked}}data-liked="true"{{end}}>
+        <span class="like-icon">{{if .Liked}}♥{{else}}♡{{end}}</span>
+        <span class="like-count">{{.LikeCount}}</span>
+        <span class="like-label">Like{{if ne .LikeCount 1}}s{{end}}</span>
+      </button>
+    </div>
+
+    <div class="comments-section" id="comments">
+      <h2 class="comments-title">Comments</h2>
+
+      {{if .Comments}}
+      <div class="comments-list">
+        {{range .Comments}}
+        <div class="comment">
+          <div class="comment-header">
+            <strong class="comment-name">{{.Name}}</strong>
+            <span class="comment-date">{{.CreatedAt}}</span>
+          </div>
+          <p class="comment-body">{{.Body}}</p>
+        </div>
+        {{end}}
+      </div>
+      {{else}}
+      <p class="comments-empty">No comments yet. Be the first to share your thoughts!</p>
+      {{end}}
+
+      <form class="comment-form" method="POST" action="/api/article/{{.Article.Slug}}/comment">
+        <h3 class="comment-form-title">Leave a Comment</h3>
+        <p class="comment-form-note">No account needed. Just share your thoughts.</p>
+        <div class="comment-form-row">
+          <input type="text" name="name" placeholder="Your name (optional)" class="comment-input">
+          <input type="email" name="email" placeholder="Email (optional, not public)" class="comment-input">
+        </div>
+        <textarea name="body" placeholder="Write your comment..." class="comment-textarea" required minlength="2" maxlength="5000"></textarea>
+        <button type="submit" class="btn comment-submit">Post Comment</button>
+      </form>
+    </div>
+  </div>
+</article>
+
+<script>
+document.querySelector('.like-btn')?.addEventListener('click', async function() {
+  const slug = this.dataset.slug;
+  try {
+    const res = await fetch('/api/article/' + slug + '/like', { method: 'POST' });
+    const data = await res.json();
+    if (data.added) {
+      this.querySelector('.like-icon').textContent = '♥';
+      this.dataset.liked = 'true';
+    }
+    this.querySelector('.like-count').textContent = data.count;
+  } catch(e) {
+    console.error('Like failed:', e);
+  }
+});
+</script>
+{{end}}

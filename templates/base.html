@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{.Title}}</title>
+<meta name="description" content="{{.Description}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">Scribblesplash</a>
+    <nav class="site-nav">
+      <a href="/">Home</a>
+      <a href="/archive">Archive</a>
+      <a href="/about">About</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+      <span class="theme-icon-light">☀</span>
+      <span class="theme-icon-dark">☽</span>
+    </button>
+  </div>
+</header>
+
+<main>
+{{block "content" .}}{{end}}
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Scribblesplash — The Borderless World</p>
+    <p class="footer-tagline">Yesterday is ashes, tomorrow wood and only today the fire shines bright.</p>
+  </div>
+</footer>
+
+<script src="/static/js/theme.js"></script>
+</body>
+</html>

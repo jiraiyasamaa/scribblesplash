@@ -3,15 +3,19 @@
 {{define "content"}}
 <section class="hero">
   <div class="container">
-    <h1 class="hero-title">The Borderless World</h1>
+    <p class="hero-label">The Borderless World</p>
+    <h1 class="hero-title">Yesterday is ashes, tomorrow wood and only today the fire shines bright.</h1>
     <p class="hero-subtitle">An anthropological movement dedicated to the celebration of humanity as one species.</p>
   </div>
 </section>
 
 {{if .CurrentIssue}}
-<section class="section current-issue">
+<section class="section">
   <div class="container">
-    <h2 class="section-title">{{.CurrentIssue.Label}} Issue</h2>
+    <div class="section-header">
+      <p class="section-kicker">Latest Issue</p>
+      <h2 class="section-title">{{.CurrentIssue.Label}}</h2>
+    </div>
     <div class="magazine-grid">
       {{range $i, $a := .CurrentIssue.Articles}}
       <article class="magazine-card card-{{$i}}">
@@ -19,10 +23,7 @@
           <div class="card-category">{{$a.Category}}</div>
           <h3 class="card-title">{{$a.Title}}</h3>
           <p class="card-excerpt">{{$a.Excerpt}}</p>
-          <div class="card-meta">
-            <span class="card-date">{{$a.Date}}</span>
-            <span class="card-reading">{{$a.WordCount}} words</span>
-          </div>
+          <p class="card-meta">{{$a.Date}} · {{$a.WordCount}} words</p>
         </a>
       </article>
       {{end}}
@@ -31,9 +32,12 @@
 </section>
 {{end}}
 
-<section class="section recent-articles">
+<section class="section recent-section">
   <div class="container">
-    <h2 class="section-title">Recent Articles</h2>
+    <div class="section-header">
+      <p class="section-kicker">From the Archives</p>
+      <h2 class="section-title">Recent Articles</h2>
+    </div>
     <div class="articles-list">
       {{range .Articles}}
       <article class="article-row">

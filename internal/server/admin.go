@@ -16,6 +16,9 @@ import (
 	"sync"
 	"time"
 	"unicode"
+
+	"scribblesplash/internal/analytics"
+	"scribblesplash/internal/dungeon"
 )
 
 type Admin struct {
@@ -123,10 +126,21 @@ func (s *Server) handleAdminDashboard(w http.ResponseWriter, r *http.Request) {
 	for i, a := range articles {
 		rows[i] = row{Title: a.Title, Slug: a.Slug, Date: a.Date, Category: a.Category}
 	}
+
+	stats := s.analytics.GetStats()
+	dungeonCount := s.dungeon.Count()
+
 	s.renderAdmin(w, "admin-dashboard.html", struct {
-		Title    string
-		Articles []row
-	}{Title: "Dashboard — Scribblesplash Admin", Articles: rows})
+		Title        string
+		Articles     []row
+		DungeonCount int
+		Stats        analytics.Stats
+	}{
+		Title:        "Dashboard — Scribblesplash Admin",
+		Articles:     rows,
+		DungeonCount: dungeonCount,
+		Stats:        stats,
+	})
 }
 
 func (s *Server) handleAdminNew(w http.ResponseWriter, r *http.Request) {
@@ -332,4 +346,56 @@ func slugify(s string) string {
 	slug = strings.Trim(slug, "-")
 	slug = strings.ReplaceAll(slug, "--", "-")
 	return slug
+}
+
+func (s *Server) handleAdminDelete(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+	if err := s.dungeon.Delete(slug); err != nil {
+		log.Printf("error deleting article %s: %v", slug, err)
+		http.Error(w, "Error deleting article", http.StatusInternalServerError)
+		return
+	}
+	if err := s.store.Reload(s.admin.storePath); err != nil {
+		log.Printf("error reloading store: %v", err)
+	}
+	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+}
+
+func (s *Server) handleAdminDungeon(w http.ResponseWriter, r *http.Request) {
+	entries, err := s.dungeon.List()
+	if err != nil {
+		log.Printf("error listing dungeon: %v", err)
+		http.Error(w, "Error loading dungeon", http.StatusInternalServerError)
+		return
+	}
+	s.renderAdmin(w, "admin-dungeon.html", struct {
+		Title   string
+		Entries []dungeon.Entry
+	}{
+		Title:   "Dungeon — Scribblesplash Admin",
+		Entries: entries,
+	})
+}
+
+func (s *Server) handleAdminDungeonRestore(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+	if err := s.dungeon.Restore(slug); err != nil {
+		log.Printf("error restoring article %s: %v", slug, err)
+		http.Error(w, "Error restoring article", http.StatusInternalServerError)
+		return
+	}
+	if err := s.store.Reload(s.admin.storePath); err != nil {
+		log.Printf("error reloading store: %v", err)
+	}
+	http.Redirect(w, r, "/admin/dungeon", http.StatusSeeOther)
+}
+
+func (s *Server) handleAdminDungeonPermanentDelete(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+	if err := s.dungeon.PermanentDelete(slug); err != nil {
+		log.Printf("error permanently deleting article %s: %v", slug, err)
+		http.Error(w, "Error deleting article", http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w, r, "/admin/dungeon", http.StatusSeeOther)
 }

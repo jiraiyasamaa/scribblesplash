@@ -11,7 +11,9 @@ import (
 	"strconv"
 	"strings"
 
+	"scribblesplash/internal/analytics"
 	"scribblesplash/internal/comments"
+	"scribblesplash/internal/dungeon"
 	"scribblesplash/internal/models"
 	"scribblesplash/internal/storage"
 )
@@ -22,10 +24,12 @@ type Server struct {
 	tmpl         *template.Template
 	templatesDir string
 	admin        *Admin
+	dungeon      *dungeon.Manager
+	analytics    *analytics.Analytics
 	RepoDir      string
 }
 
-func New(store *storage.Store, cm *comments.Manager, templatesDir string) (*Server, error) {
+func New(store *storage.Store, cm *comments.Manager, templatesDir string, dg *dungeon.Manager, an *analytics.Analytics) (*Server, error) {
 	funcMap := template.FuncMap{
 		"add": func(a, b int) int { return a + b },
 		"seq": func(start, end int) []int {
@@ -48,6 +52,8 @@ func New(store *storage.Store, cm *comments.Manager, templatesDir string) (*Serv
 		tmpl:         tmpl,
 		templatesDir: templatesDir,
 		admin:        NewAdmin("articles"),
+		dungeon:      dg,
+		analytics:    an,
 	}, nil
 }
 
@@ -87,10 +93,15 @@ func (s *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /admin/edit/{slug}", s.adminMiddleware(s.handleAdminEdit))
 	mux.HandleFunc("POST /admin/edit/{slug}", s.adminMiddleware(s.handleAdminEdit))
 
+	mux.HandleFunc("POST /admin/delete/{slug}", s.adminMiddleware(s.handleAdminDelete))
+	mux.HandleFunc("GET /admin/dungeon", s.adminMiddleware(s.handleAdminDungeon))
+	mux.HandleFunc("POST /admin/dungeon/restore/{slug}", s.adminMiddleware(s.handleAdminDungeonRestore))
+	mux.HandleFunc("POST /admin/dungeon/permanent-delete/{slug}", s.adminMiddleware(s.handleAdminDungeonPermanentDelete))
+
 	fs := http.FileServer(http.Dir("static"))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
 
-	return s.logMiddleware(s.securityHeaders(mux))
+	return s.logMiddleware(s.analyticsMiddleware(s.securityHeaders(mux)))
 }
 
 func (s *Server) logMiddleware(next http.Handler) http.Handler {
@@ -104,6 +115,15 @@ func (s *Server) securityHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("X-Frame-Options", "DENY")
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (s *Server) analyticsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "GET" && !strings.HasPrefix(r.URL.Path, "/static/") && !strings.HasPrefix(r.URL.Path, "/admin") {
+			s.analytics.Track(r.URL.Path)
+		}
 		next.ServeHTTP(w, r)
 	})
 }

@@ -5,7 +5,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"scribblesplash/internal/analytics"
 	"scribblesplash/internal/comments"
+	"scribblesplash/internal/dungeon"
 	"scribblesplash/internal/server"
 	"scribblesplash/internal/storage"
 )
@@ -32,8 +34,11 @@ func main() {
 		log.Fatalf("error initializing comments: %v", err)
 	}
 
+	dg := dungeon.New("data/dungeon", "articles")
+	an := analytics.New(dataDir)
+
 	cwd, _ := os.Getwd()
-	srv, err := server.New(store, cm, "templates")
+	srv, err := server.New(store, cm, "templates", dg, an)
 	if err != nil {
 		log.Fatalf("error creating server: %v", err)
 	}

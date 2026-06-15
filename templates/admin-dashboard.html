@@ -15,19 +15,36 @@ body { font-family: 'Inter', sans-serif; background: #f5f0eb; color: #1a1a1a; }
 .header a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #5c1f2b; text-decoration: none; }
 .header a:hover { color: #8b3a4a; }
 .content { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-.actions { margin-bottom: 1.5rem; }
-.btn { display: inline-block; padding: 0.6rem 1.25rem; background: #5c1f2b; color: #fff; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.actions { margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+.btn { display: inline-block; padding: 0.6rem 1.25rem; background: #5c1f2b; color: #fff; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border: none; font-family: 'Inter', sans-serif; cursor: pointer; }
 .btn:hover { background: #8b3a4a; }
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.7rem; }
+.btn-secondary { background: #d5ccc0; color: #333; }
+.btn-secondary:hover { background: #bfb4a5; }
+.btn-danger { background: #8b2f2f; }
+.btn-danger:hover { background: #b04444; }
+.btn-dungeon { background: #4a3d2d; }
+.btn-dungeon:hover { background: #6b5941; }
 table { width: 100%; background: #fff; border: 1px solid #d5ccc0; border-radius: 4px; overflow: hidden; }
 th { background: #ede8e0; text-align: left; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #555; }
-td { padding: 0.7rem 1rem; border-top: 1px solid #d5ccc0; font-size: 0.9rem; }
+td { padding: 0.7rem 1rem; border-top: 1px solid #d5ccc0; font-size: 0.9rem; vertical-align: middle; }
 td a { color: #5c1f2b; text-decoration: none; }
 td a:hover { text-decoration: underline; }
 tr:hover td { background: #faf8f5; }
 .date { color: #888; font-size: 0.8rem; }
 .cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+.actions-cell { white-space: nowrap; }
+.actions-cell form { display: inline; }
 .view-site { font-size: 0.8rem; color: #888; margin-top: 1.5rem; text-align: center; }
 .view-site a { color: #5c1f2b; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: #fff; border: 1px solid #d5ccc0; border-radius: 4px; padding: 1.25rem; text-align: center; }
+.stat-number { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: #5c1f2b; }
+.stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-top: 0.3rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #5c1f2b; margin-bottom: 0.75rem; margin-top: 2rem; text-transform: uppercase; letter-spacing: 1px; }
+.page-list { list-style: none; }
+.page-list li { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #ede8e0; font-size: 0.85rem; }
+.page-list li span { color: #5c1f2b; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -38,15 +55,47 @@ tr:hover td { background: #faf8f5; }
 <div class="content">
 <div class="actions">
 <a href="/admin/new" class="btn">+ Write New Article</a>
+<a href="/admin/dungeon" class="btn btn-dungeon">Dungeon{{if gt .DungeonCount 0}} ({{.DungeonCount}}){{end}}</a>
 </div>
+
+<div class="section-title">Analytics</div>
+<div class="stats">
+<div class="stat-card">
+<div class="stat-number">{{.Stats.TotalViews}}</div>
+<div class="stat-label">Total Page Views</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">{{.Stats.TodayViews}}</div>
+<div class="stat-label">Today</div>
+</div>
+</div>
+
+{{if .Stats.PageViews}}
+<div style="margin-bottom: 2rem;">
+<div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#555;margin-bottom:0.5rem;">Top Pages</div>
+<ul class="page-list">
+{{range .Stats.PageViews}}
+<li>{{.Path}} <span>{{.Count}}</span></li>
+{{end}}
+</ul>
+</div>
+{{end}}
+
+<div class="section-title">Articles</div>
 {{if .Articles}}
 <table>
-<tr><th>Title</th><th>Date</th><th>Category</th></tr>
+<tr><th>Title</th><th>Date</th><th>Category</th><th>Actions</th></tr>
 {{range .Articles}}
 <tr>
 <td><a href="/admin/edit/{{.Slug}}">{{.Title}}</a></td>
 <td class="date">{{.Date}}</td>
 <td class="cat">{{.Category}}</td>
+<td class="actions-cell">
+<a href="/admin/edit/{{.Slug}}" class="btn btn-sm btn-secondary">Edit</a>
+<form method="POST" action="/admin/delete/{{.Slug}}" style="display:inline" onsubmit="return confirm('Move {{.Title}} to the dungeon?')">
+<button type="submit" class="btn btn-sm btn-danger">Delete</button>
+</form>
+</td>
 </tr>
 {{end}}
 </table>

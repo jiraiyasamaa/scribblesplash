@@ -132,6 +132,16 @@ img {
   color: var(--accent);
 }
 
+.site-nav .login-link {
+  opacity: 0.6;
+  font-size: 0.65rem;
+}
+
+.site-nav .login-link:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
 .theme-toggle {
   background: none;
   border: 1px solid var(--border);

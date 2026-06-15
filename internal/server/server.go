@@ -249,6 +249,8 @@ func (s *Server) handleArticle(w http.ResponseWriter, r *http.Request) {
 			BodyHTML     template.HTML
 			WordCount    int
 			ReadingTime  int
+			AuthorName   string
+			AuthorLink   string
 		}
 		Comments    []CommentCard
 		LikeCount   int
@@ -266,6 +268,8 @@ func (s *Server) handleArticle(w http.ResponseWriter, r *http.Request) {
 			BodyHTML     template.HTML
 			WordCount    int
 			ReadingTime  int
+			AuthorName   string
+			AuthorLink   string
 		}{
 			Title:       article.Title,
 			Slug:        article.Slug,
@@ -275,6 +279,8 @@ func (s *Server) handleArticle(w http.ResponseWriter, r *http.Request) {
 			BodyHTML:    template.HTML(article.BodyHTML),
 			WordCount:   article.WordCount,
 			ReadingTime: max(article.WordCount/200, 1),
+			AuthorName:  article.AuthorName,
+			AuthorLink:  article.AuthorLink,
 		},
 		Comments:  toCommentCards(comments),
 		LikeCount: likeCount,

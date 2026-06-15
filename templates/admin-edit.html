@@ -70,6 +70,31 @@ textarea { font-family: 'Source Serif 4', Georgia, serif; line-height: 1.7; resi
 <input type="text" name="tags" id="tags" value="{{.Tags}}" placeholder="Comma separated">
 </div>
 <div class="form-group">
+<label>
+<input type="checkbox" name="written_by_self" id="written_by_self"{{if and .IsNew (not .AuthorName)}} checked{{else if not .AuthorName}} checked{{end}} onchange="toggleAuthorFields()">
+Written by Self (The Waterman)
+</label>
+</div>
+<div id="author-fields" style="display: {{if or .AuthorName (not .IsNew)}}{{if .AuthorName}}block{{else}}none{{end}}{{else}}none{{end}};">
+<div class="form-row">
+<div class="form-group">
+<label for="author_name">Display Name</label>
+<input type="text" name="author_name" id="author_name" value="{{.AuthorName}}" placeholder="e.g. Mukul Godbole">
+</div>
+<div class="form-group">
+<label for="author_link">Author Link <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+<input type="url" name="author_link" id="author_link" value="{{.AuthorLink}}" placeholder="https://...">
+</div>
+</div>
+</div>
+<script>
+function toggleAuthorFields() {
+  var cb = document.getElementById('written_by_self');
+  var fields = document.getElementById('author-fields');
+  fields.style.display = cb.checked ? 'none' : 'block';
+}
+</script>
+<div class="form-group">
 <label for="excerpt">Excerpt</label>
 <textarea name="excerpt" id="excerpt" rows="3" maxlength="500">{{.Excerpt}}</textarea>
 </div>

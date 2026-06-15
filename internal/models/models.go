@@ -3,18 +3,20 @@ package models
 import "time"
 
 type Article struct {
-	Title     string   `yaml:"title"`
-	Slug      string   `yaml:"slug"`
-	Date      string   `yaml:"date"`
-	Year      int
-	Month     time.Month
-	Category  string   `yaml:"category"`
-	Tags      []string `yaml:"tags"`
-	ImageURL  string   `yaml:"image"`
-	Excerpt   string   `yaml:"excerpt"`
-	Content   string   `yaml:"-"`
-	WordCount int      `yaml:"-"`
-	BodyHTML  string   `yaml:"-"`
+	Title      string   `yaml:"title"`
+	Slug       string   `yaml:"slug"`
+	Date       string   `yaml:"date"`
+	Year       int
+	Month      time.Month
+	Category   string   `yaml:"category"`
+	Tags       []string `yaml:"tags"`
+	ImageURL   string   `yaml:"image"`
+	Excerpt    string   `yaml:"excerpt"`
+	AuthorName string   `yaml:"author_name"`
+	AuthorLink string   `yaml:"author_link"`
+	Content    string   `yaml:"-"`
+	WordCount  int      `yaml:"-"`
+	BodyHTML   string   `yaml:"-"`
 }
 
 func (a *Article) Quarter() int {

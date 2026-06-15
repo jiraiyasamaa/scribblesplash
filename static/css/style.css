@@ -732,6 +732,29 @@ img {
 }
 
 /* ─── Comments ─── */
+.about-author {
+  margin: 2rem 0;
+}
+.about-author-sep {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0 0 1rem;
+}
+.about-author-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.about-author-text {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.about-author-text a {
+  color: var(--accent);
+  text-decoration: underline;
+}
 .comments-section {
   margin: 2rem 0 3rem;
 }

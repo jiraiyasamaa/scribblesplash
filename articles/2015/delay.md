@@ -6,6 +6,8 @@ category: "Poems"
 image: ""
 excerpt: "Thought about the poem: The poem is an attempt to describe the feelings of a cancer patient...a kid suffering from Osteosarcoma.  Delay  A thought occurred to me That I couldn’t bend my knee Had a"
 tags: []
+author_name: "Mukul Godbole"
+author_link: "https://mitwpu.edu.in/faculty/mukul-sacchit-godbole"
 ---
 
 Thought about the poem: The poem is an attempt to describe the feelings of a cancer patient...a kid suffering from Osteosarcoma.

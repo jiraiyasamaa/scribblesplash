@@ -22,8 +22,16 @@
       {{.Article.BodyHTML}}
     </div>
 
+    {{if .Article.AuthorName}}
+    <div class="about-author">
+      <hr class="about-author-sep">
+      <h3 class="about-author-title">About the Author</h3>
+      <p class="about-author-text">{{.Article.AuthorName}}{{if .Article.AuthorLink}} — <a href="{{.Article.AuthorLink}}" target="_blank" rel="noopener">Faculty profile at MIT-WPU</a>{{end}}</p>
+    </div>
+    {{end}}
+
     <footer class="article-footer">
-      <p class="article-author">— The Waterman</p>
+      <p class="article-author">— {{if .Article.AuthorName}}{{if .Article.AuthorLink}}<a href="{{.Article.AuthorLink}}" target="_blank" rel="noopener">{{.Article.AuthorName}}</a>{{else}}{{.Article.AuthorName}}{{end}}{{else}}The Waterman{{end}}</p>
     </footer>
 
     <div class="article-engagement">

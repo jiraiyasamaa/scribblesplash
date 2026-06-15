@@ -163,16 +163,18 @@ func (s *Server) handleAdminNew(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.renderAdmin(w, "admin-edit.html", struct {
-		Title       string
+		Title        string
 		ArticleTitle string
-		Slug        string
-		Date        string
-		Category    string
-		Excerpt     string
-		Body        string
-		Tags        string
-		ImageURL    string
-		IsNew       bool
+		Slug         string
+		Date         string
+		Category     string
+		Excerpt      string
+		Body         string
+		Tags         string
+		ImageURL     string
+		AuthorName   string
+		AuthorLink   string
+		IsNew        bool
 	}{Title: "New Article — Scribblesplash Admin", IsNew: true, Date: time.Now().Format("2006-01-02")})
 }
 
@@ -188,16 +190,18 @@ func (s *Server) handleAdminEdit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.renderAdmin(w, "admin-edit.html", struct {
-		Title       string
+		Title        string
 		ArticleTitle string
-		Slug        string
-		Date        string
-		Category    string
-		Excerpt     string
-		Body        string
-		Tags        string
-		ImageURL    string
-		IsNew       bool
+		Slug         string
+		Date         string
+		Category     string
+		Excerpt      string
+		Body         string
+		Tags         string
+		ImageURL     string
+		AuthorName   string
+		AuthorLink   string
+		IsNew        bool
 	}{
 		Title:       "Edit — " + article.Title + " — Scribblesplash Admin",
 		ArticleTitle: article.Title,
@@ -208,6 +212,8 @@ func (s *Server) handleAdminEdit(w http.ResponseWriter, r *http.Request) {
 		Body:        article.Content,
 		Tags:        strings.Join(article.Tags, ", "),
 		ImageURL:    article.ImageURL,
+		AuthorName:  article.AuthorName,
+		AuthorLink:  article.AuthorLink,
 	})
 }
 
@@ -235,6 +241,14 @@ func (s *Server) handleAdminSave(w http.ResponseWriter, r *http.Request, existin
 		}
 	}
 
+	writtenBySelf := r.FormValue("written_by_self") == "on"
+	authorName := strings.TrimSpace(r.FormValue("author_name"))
+	authorLink := strings.TrimSpace(r.FormValue("author_link"))
+	if writtenBySelf {
+		authorName = ""
+		authorLink = ""
+	}
+
 	year := date[:4]
 	dir := filepath.Join(s.admin.storePath, year)
 	if err := os.MkdirAll(dir, 0755); err != nil {
@@ -242,17 +256,26 @@ func (s *Server) handleAdminSave(w http.ResponseWriter, r *http.Request, existin
 		return
 	}
 
-	content := fmt.Sprintf(`---
+	var sb strings.Builder
+	sb.WriteString(fmt.Sprintf(`---
 title: %q
 slug: %q
 date: %q
 category: %q
 image: %q
 excerpt: %q
-tags: %v
+tags: %v`, title, slug, date, category, imageURL, excerpt, tagList))
+	if authorName != "" {
+		sb.WriteString(fmt.Sprintf(`
+author_name: %q
+author_link: %q`, authorName, authorLink))
+	}
+	sb.WriteString(fmt.Sprintf(`
 ---
 
-%s`, title, slug, date, category, imageURL, excerpt, tagList, body)
+%s`, body))
+
+	content := sb.String()
 
 	filePath := filepath.Join(dir, slug+".md")
 	if err := os.WriteFile(filePath, []byte(content), 0644); err != nil {

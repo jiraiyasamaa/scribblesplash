@@ -1,11 +1,13 @@
 {
-  "total_views": 6,
+  "total_views": 8,
   "daily_views": {
-    "2026-06-15": 6
+    "2026-06-15": 8
   },
   "page_views": {
     "/": 4,
     "/about": 1,
-    "/article/its-getting-warmer-isnt-it": 1
+    "/article/delay": 1,
+    "/article/its-getting-warmer-isnt-it": 1,
+    "/article/the-bread-of-revolution": 1
   }
 }

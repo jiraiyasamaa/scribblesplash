@@ -1,15 +1,15 @@
 :root {
-  --bg: #F5F0EB;
+  --bg: #F0F6FF;
   --bg-card: #FFFFFF;
-  --bg-alt: #EDE8E0;
-  --text: #1A1A1A;
-  --text-light: #555555;
-  --text-muted: #888888;
-  --accent: #5C1F2B;
-  --accent-light: #8B3A4A;
+  --bg-alt: #E0ECF8;
+  --text: #1A2332;
+  --text-light: #4A5568;
+  --text-muted: #8896A6;
+  --accent: #1A6FB5;
+  --accent-light: #4A90D9;
   --gold: #C9A84C;
   --gold-light: #E8D48B;
-  --border: #D5CCC0;
+  --border: #C8D6E5;
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'Source Serif 4', Georgia, serif;
   --font-ui: 'Inter', -apple-system, sans-serif;
@@ -22,17 +22,17 @@
 }
 
 [data-theme="dark"] {
-  --bg: #1A1A2E;
-  --bg-card: #16213E;
-  --bg-alt: #0F3460;
-  --text: #E8E8E8;
-  --text-light: #A0A0B0;
-  --text-muted: #6B6B80;
-  --accent: #C9A84C;
-  --accent-light: #E8D48B;
-  --gold: #5C1F2B;
-  --gold-light: #8B3A4A;
-  --border: #2A2A4A;
+  --bg: #0D1B2A;
+  --bg-card: #1B2838;
+  --bg-alt: #243447;
+  --text: #E8EEF2;
+  --text-light: #9BAFC4;
+  --text-muted: #6B8099;
+  --accent: #4A9AE5;
+  --accent-light: #7AB8F0;
+  --gold: #C9A84C;
+  --gold-light: #E8D48B;
+  --border: #2A3F52;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
   --shadow-md: 0 4px 15px rgba(0,0,0,0.25);
   --shadow-lg: 0 8px 30px rgba(0,0,0,0.3);
@@ -671,6 +671,65 @@ img {
 .like-icon { font-size: 1.1rem; }
 .like-count { font-weight: 700; font-family: var(--font-ui); }
 .like-label { font-family: var(--font-ui); font-size: 0.82rem; color: var(--text-muted); }
+
+/* ─── Share ─── */
+.share-section {
+  text-align: center;
+  padding: 1rem 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.share-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.share-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.share-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.share-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.share-btn.copied {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
 
 /* ─── Comments ─── */
 .comments-section {

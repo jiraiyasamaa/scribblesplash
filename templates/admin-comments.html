@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{.Title}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #f0f6ff; color: #1a2332; }
+.header { background: #fff; border-bottom: 1px solid #c8d6e5; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #1a6fb5; text-transform: uppercase; letter-spacing: 2px; }
+.header a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #1a6fb5; text-decoration: none; }
+.header a:hover { color: #4a90d9; }
+.content { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+.actions { margin-bottom: 1.5rem; }
+.btn { display: inline-block; padding: 0.6rem 1.25rem; background: #1a6fb5; color: #fff; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border: none; font-family: 'Inter', sans-serif; cursor: pointer; }
+.btn:hover { background: #4a90d9; }
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.7rem; }
+.btn-secondary { background: #c8d6e5; color: #333; }
+.btn-secondary:hover { background: #b0c4d8; }
+.btn-success { background: #2d6b3f; }
+.btn-success:hover { background: #3d8a54; }
+.btn-danger { background: #8b2f2f; }
+.btn-danger:hover { background: #b04444; }
+table { width: 100%; background: #fff; border: 1px solid #c8d6e5; border-radius: 4px; overflow: hidden; }
+th { background: #e0ecf8; text-align: left; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #4a5568; }
+td { padding: 0.7rem 1rem; border-top: 1px solid #c8d6e5; font-size: 0.9rem; vertical-align: middle; }
+tr:hover td { background: #f8faff; }
+.article-link { color: #1a6fb5; text-decoration: none; font-weight: 600; font-size: 0.8rem; }
+.article-link:hover { text-decoration: underline; }
+.comment-name { font-weight: 600; }
+.comment-body { color: #4a5568; font-size: 0.85rem; margin-top: 0.25rem; }
+.comment-date { color: #8896a6; font-size: 0.75rem; }
+.status-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 50px; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-approved { background: #d4edda; color: #155724; }
+.status-pending { background: #fff3cd; color: #856404; }
+.actions-cell { white-space: nowrap; }
+.actions-cell form { display: inline; }
+.empty-state { color: #8896a6; text-align: center; padding: 3rem; }
+</style>
+</head>
+<body>
+<div class="header">
+<h1>Comments</h1>
+<a href="/admin">← Dashboard</a>
+</div>
+<div class="content">
+<div class="actions">
+<a href="/admin" class="btn btn-secondary">← Back to Dashboard</a>
+</div>
+{{if .Comments}}
+<table>
+<tr><th>Article</th><th>Commenter</th><th>Comment</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+{{range .Comments}}
+<tr>
+<td><a href="/admin/edit/{{.ArticleSlug}}" class="article-link">{{.ArticleName}}</a></td>
+<td class="comment-name">{{.Name}}</td>
+<td class="comment-body">{{.Body}}</td>
+<td class="comment-date">{{.Date}}</td>
+<td>{{if .Approved}}<span class="status-badge status-approved">Approved</span>{{else}}<span class="status-badge status-pending">Pending</span>{{end}}</td>
+<td class="actions-cell">
+{{if not .Approved}}
+<form method="POST" action="/admin/comment/approve/{{.ArticleSlug}}/{{.ID}}" style="display:inline">
+<button type="submit" class="btn btn-sm btn-success">Approve</button>
+</form>
+{{end}}
+<form method="POST" action="/admin/comment/reject/{{.ArticleSlug}}/{{.ID}}" style="display:inline" onsubmit="return confirm('Delete this comment?')">
+<button type="submit" class="btn btn-sm btn-danger">Reject</button>
+</form>
+</td>
+</tr>
+{{end}}
+</table>
+{{else}}
+<p class="empty-state">No comments yet.</p>
+{{end}}
+</div>
+</body>
+</html>

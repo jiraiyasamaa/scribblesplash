@@ -9,52 +9,58 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: #f5f0eb; color: #1a1a1a; }
-.header { background: #fff; border-bottom: 1px solid #d5ccc0; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-.header h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #5c1f2b; text-transform: uppercase; letter-spacing: 2px; }
-.header a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #5c1f2b; text-decoration: none; }
-.header a:hover { color: #8b3a4a; }
-.content { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+body { font-family: 'Inter', sans-serif; background: #f0f6ff; color: #1a2332; }
+.header { background: #fff; border-bottom: 1px solid #c8d6e5; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #1a6fb5; text-transform: uppercase; letter-spacing: 2px; }
+.header a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #1a6fb5; text-decoration: none; }
+.header a:hover { color: #4a90d9; }
+.content { max-width: 1200px; margin: 0 auto; padding: 2rem; }
 .actions { margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
-.btn { display: inline-block; padding: 0.6rem 1.25rem; background: #5c1f2b; color: #fff; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border: none; font-family: 'Inter', sans-serif; cursor: pointer; }
-.btn:hover { background: #8b3a4a; }
+.btn { display: inline-block; padding: 0.6rem 1.25rem; background: #1a6fb5; color: #fff; text-decoration: none; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border: none; font-family: 'Inter', sans-serif; cursor: pointer; }
+.btn:hover { background: #4a90d9; }
 .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.7rem; }
-.btn-secondary { background: #d5ccc0; color: #333; }
-.btn-secondary:hover { background: #bfb4a5; }
+.btn-secondary { background: #c8d6e5; color: #333; }
+.btn-secondary:hover { background: #b0c4d8; }
 .btn-danger { background: #8b2f2f; }
 .btn-danger:hover { background: #b04444; }
 .btn-dungeon { background: #4a3d2d; }
 .btn-dungeon:hover { background: #6b5941; }
-table { width: 100%; background: #fff; border: 1px solid #d5ccc0; border-radius: 4px; overflow: hidden; }
-th { background: #ede8e0; text-align: left; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #555; }
-td { padding: 0.7rem 1rem; border-top: 1px solid #d5ccc0; font-size: 0.9rem; vertical-align: middle; }
-td a { color: #5c1f2b; text-decoration: none; }
+.btn-comments { background: #2d6b3f; }
+.btn-comments:hover { background: #3d8a54; }
+table { width: 100%; background: #fff; border: 1px solid #c8d6e5; border-radius: 4px; overflow: hidden; }
+th { background: #e0ecf8; text-align: left; padding: 0.7rem 1rem; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #4a5568; }
+td { padding: 0.7rem 1rem; border-top: 1px solid #c8d6e5; font-size: 0.9rem; vertical-align: middle; }
+td a { color: #1a6fb5; text-decoration: none; }
 td a:hover { text-decoration: underline; }
-tr:hover td { background: #faf8f5; }
-.date { color: #888; font-size: 0.8rem; }
-.cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+tr:hover td { background: #f8faff; }
+.date { color: #8896a6; font-size: 0.8rem; }
+.cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #8896a6; }
+.metrics { display: flex; gap: 0.6rem; align-items: center; font-size: 0.85rem; color: #4a5568; }
+.metrics span { display: inline-flex; align-items: center; gap: 0.2rem; }
+.metric-icon { font-size: 0.75rem; }
 .actions-cell { white-space: nowrap; }
 .actions-cell form { display: inline; }
-.view-site { font-size: 0.8rem; color: #888; margin-top: 1.5rem; text-align: center; }
-.view-site a { color: #5c1f2b; }
+.view-site { font-size: 0.8rem; color: #8896a6; margin-top: 1.5rem; text-align: center; }
+.view-site a { color: #1a6fb5; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-.stat-card { background: #fff; border: 1px solid #d5ccc0; border-radius: 4px; padding: 1.25rem; text-align: center; }
-.stat-number { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: #5c1f2b; }
-.stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-top: 0.3rem; }
-.section-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #5c1f2b; margin-bottom: 0.75rem; margin-top: 2rem; text-transform: uppercase; letter-spacing: 1px; }
+.stat-card { background: #fff; border: 1px solid #c8d6e5; border-radius: 4px; padding: 1.25rem; text-align: center; }
+.stat-number { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: #1a6fb5; }
+.stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #8896a6; margin-top: 0.3rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #1a6fb5; margin-bottom: 0.75rem; margin-top: 2rem; text-transform: uppercase; letter-spacing: 1px; }
 .page-list { list-style: none; }
-.page-list li { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #ede8e0; font-size: 0.85rem; }
-.page-list li span { color: #5c1f2b; font-weight: 600; }
+.page-list li { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e0ecf8; font-size: 0.85rem; }
+.page-list li span { color: #1a6fb5; font-weight: 600; }
 </style>
 </head>
 <body>
 <div class="header">
-<h1>Scribblesplash</h1>
+<h1>ScribbleSplash</h1>
 <a href="/admin/new">+ New Article</a>
 </div>
 <div class="content">
 <div class="actions">
 <a href="/admin/new" class="btn">+ Write New Article</a>
+<a href="/admin/comments" class="btn btn-comments">Comments</a>
 <a href="/admin/dungeon" class="btn btn-dungeon">Dungeon{{if gt .DungeonCount 0}} ({{.DungeonCount}}){{end}}</a>
 </div>
 
@@ -72,7 +78,7 @@ tr:hover td { background: #faf8f5; }
 
 {{if .Stats.PageViews}}
 <div style="margin-bottom: 2rem;">
-<div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#555;margin-bottom:0.5rem;">Top Pages</div>
+<div style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#4a5568;margin-bottom:0.5rem;">Top Pages</div>
 <ul class="page-list">
 {{range .Stats.PageViews}}
 <li>{{.Path}} <span>{{.Count}}</span></li>
@@ -84,12 +90,18 @@ tr:hover td { background: #faf8f5; }
 <div class="section-title">Articles</div>
 {{if .Articles}}
 <table>
-<tr><th>Title</th><th>Date</th><th>Category</th><th>Actions</th></tr>
+<tr><th>Title</th><th>Date</th><th>Category</th><th>Analytics</th><th>Actions</th></tr>
 {{range .Articles}}
 <tr>
 <td><a href="/admin/edit/{{.Slug}}">{{.Title}}</a></td>
 <td class="date">{{.Date}}</td>
 <td class="cat">{{.Category}}</td>
+<td class="metrics">
+<span>👁 {{.Views}}</span>
+<span>♡ {{.Likes}}</span>
+<span>💬 {{.Comments}}</span>
+<span>📤 {{.Shares}}</span>
+</td>
 <td class="actions-cell">
 <a href="/admin/edit/{{.Slug}}" class="btn btn-sm btn-secondary">Edit</a>
 <form method="POST" action="/admin/delete/{{.Slug}}" style="display:inline" onsubmit="return confirm('Move {{.Title}} to the dungeon?')">
@@ -100,7 +112,7 @@ tr:hover td { background: #faf8f5; }
 {{end}}
 </table>
 {{else}}
-<p style="color: #888; text-align: center; padding: 3rem;">No articles yet.</p>
+<p style="color: #8896a6; text-align: center; padding: 3rem;">No articles yet.</p>
 {{end}}
 <div class="view-site"><a href="/" target="_blank">View site →</a></div>
 </div>

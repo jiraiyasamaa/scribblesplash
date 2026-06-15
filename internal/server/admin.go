@@ -121,10 +121,24 @@ func (s *Server) handleAdminDashboard(w http.ResponseWriter, r *http.Request) {
 		Slug     string
 		Date     string
 		Category string
+		Views    int
+		Likes    int
+		Comments int
+		Shares   int
 	}
 	rows := make([]row, len(articles))
 	for i, a := range articles {
-		rows[i] = row{Title: a.Title, Slug: a.Slug, Date: a.Date, Category: a.Category}
+		likes, _ := s.comments.GetLikes(a.Slug)
+		rows[i] = row{
+			Title:    a.Title,
+			Slug:     a.Slug,
+			Date:     a.Date,
+			Category: a.Category,
+			Views:    s.analytics.GetArticleViews(a.Slug),
+			Likes:    likes,
+			Comments: s.comments.GetCommentCount(a.Slug),
+			Shares:   s.comments.GetShares(a.Slug),
+		}
 	}
 
 	stats := s.analytics.GetStats()
@@ -350,6 +364,12 @@ func slugify(s string) string {
 
 func (s *Server) handleAdminDelete(w http.ResponseWriter, r *http.Request) {
 	slug := r.PathValue("slug")
+
+	title := slug
+	if a, ok := s.store.GetArticle(slug); ok {
+		title = a.Title
+	}
+
 	if err := s.dungeon.Delete(slug); err != nil {
 		log.Printf("error deleting article %s: %v", slug, err)
 		http.Error(w, "Error deleting article", http.StatusInternalServerError)
@@ -358,6 +378,8 @@ func (s *Server) handleAdminDelete(w http.ResponseWriter, r *http.Request) {
 	if err := s.store.Reload(s.admin.storePath); err != nil {
 		log.Printf("error reloading store: %v", err)
 	}
+
+	go s.gitCommitPush(slug, "Delete: "+title)
 	http.Redirect(w, r, "/admin", http.StatusSeeOther)
 }
 
@@ -379,6 +401,18 @@ func (s *Server) handleAdminDungeon(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleAdminDungeonRestore(w http.ResponseWriter, r *http.Request) {
 	slug := r.PathValue("slug")
+
+	title := slug
+	entries, err := s.dungeon.List()
+	if err == nil {
+		for _, e := range entries {
+			if e.Slug == slug {
+				title = e.Title
+				break
+			}
+		}
+	}
+
 	if err := s.dungeon.Restore(slug); err != nil {
 		log.Printf("error restoring article %s: %v", slug, err)
 		http.Error(w, "Error restoring article", http.StatusInternalServerError)
@@ -387,6 +421,8 @@ func (s *Server) handleAdminDungeonRestore(w http.ResponseWriter, r *http.Reques
 	if err := s.store.Reload(s.admin.storePath); err != nil {
 		log.Printf("error reloading store: %v", err)
 	}
+
+	go s.gitCommitPush(slug, "Restore: "+title)
 	http.Redirect(w, r, "/admin/dungeon", http.StatusSeeOther)
 }
 
@@ -398,4 +434,66 @@ func (s *Server) handleAdminDungeonPermanentDelete(w http.ResponseWriter, r *htt
 		return
 	}
 	http.Redirect(w, r, "/admin/dungeon", http.StatusSeeOther)
+}
+
+func (s *Server) handleAdminComments(w http.ResponseWriter, r *http.Request) {
+	allComments, err := s.comments.GetAllComments()
+	if err != nil {
+		log.Printf("error listing comments: %v", err)
+		http.Error(w, "Error loading comments", http.StatusInternalServerError)
+		return
+	}
+
+	type commentRow struct {
+		ID          string
+		ArticleSlug string
+		ArticleName string
+		Name        string
+		Body        string
+		Date        string
+		Approved    bool
+	}
+
+	rows := make([]commentRow, 0, len(allComments))
+	for _, c := range allComments {
+		articleName := c.ArticleSlug
+		if a, ok := s.store.GetArticle(c.ArticleSlug); ok {
+			articleName = a.Title
+		}
+		rows = append(rows, commentRow{
+			ID:          c.ID,
+			ArticleSlug: c.ArticleSlug,
+			ArticleName: articleName,
+			Name:        c.Name,
+			Body:        c.Body,
+			Date:        c.CreatedAt.Format("2 Jan 2006 15:04"),
+			Approved:    c.Approved,
+		})
+	}
+
+	s.renderAdmin(w, "admin-comments.html", struct {
+		Title    string
+		Comments []commentRow
+	}{
+		Title:    "Comments — Scribblesplash Admin",
+		Comments: rows,
+	})
+}
+
+func (s *Server) handleAdminCommentApprove(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+	id := r.PathValue("id")
+	if err := s.comments.ApproveComment(slug, id); err != nil {
+		log.Printf("error approving comment: %v", err)
+	}
+	http.Redirect(w, r, "/admin/comments", http.StatusSeeOther)
+}
+
+func (s *Server) handleAdminCommentReject(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+	id := r.PathValue("id")
+	if err := s.comments.RejectComment(slug, id); err != nil {
+		log.Printf("error rejecting comment: %v", err)
+	}
+	http.Redirect(w, r, "/admin/comments", http.StatusSeeOther)
 }

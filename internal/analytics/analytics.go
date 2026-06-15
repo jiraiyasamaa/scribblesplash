@@ -74,8 +74,8 @@ func (a *Analytics) GetStats() Stats {
 	sort.Slice(pageViews, func(i, j int) bool {
 		return pageViews[i].Count > pageViews[j].Count
 	})
-	if len(pageViews) > 10 {
-		pageViews = pageViews[:10]
+	if len(pageViews) > 5 {
+		pageViews = pageViews[:5]
 	}
 
 	return Stats{
@@ -84,4 +84,10 @@ func (a *Analytics) GetStats() Stats {
 		PageViews:  pageViews,
 		TodayViews: a.DailyViews[today],
 	}
+}
+
+func (a *Analytics) GetArticleViews(slug string) int {
+	a.mu.RLock()
+	defer a.mu.RUnlock()
+	return a.PageViews["/article/"+slug]
 }

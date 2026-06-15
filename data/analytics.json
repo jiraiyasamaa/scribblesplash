@@ -1,9 +1,10 @@
 {
-  "total_views": 3,
+  "total_views": 5,
   "daily_views": {
-    "2026-06-15": 3
+    "2026-06-15": 5
   },
   "page_views": {
-    "/": 3
+    "/": 4,
+    "/article/its-getting-warmer-isnt-it": 1
   }
 }

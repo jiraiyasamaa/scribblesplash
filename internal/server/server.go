@@ -83,6 +83,7 @@ func (s *Server) Routes() http.Handler {
 
 	mux.HandleFunc("POST /api/article/{slug}/like", s.handleLike)
 	mux.HandleFunc("POST /api/article/{slug}/comment", s.handleComment)
+	mux.HandleFunc("POST /api/article/{slug}/share", s.handleShare)
 
 	// Admin routes
 	mux.HandleFunc("GET /admin/login", s.handleAdminLogin)
@@ -97,6 +98,10 @@ func (s *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /admin/dungeon", s.adminMiddleware(s.handleAdminDungeon))
 	mux.HandleFunc("POST /admin/dungeon/restore/{slug}", s.adminMiddleware(s.handleAdminDungeonRestore))
 	mux.HandleFunc("POST /admin/dungeon/permanent-delete/{slug}", s.adminMiddleware(s.handleAdminDungeonPermanentDelete))
+
+	mux.HandleFunc("GET /admin/comments", s.adminMiddleware(s.handleAdminComments))
+	mux.HandleFunc("POST /admin/comment/approve/{slug}/{id}", s.adminMiddleware(s.handleAdminCommentApprove))
+	mux.HandleFunc("POST /admin/comment/reject/{slug}/{id}", s.adminMiddleware(s.handleAdminCommentReject))
 
 	fs := http.FileServer(http.Dir("static"))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
@@ -121,6 +126,11 @@ func (s *Server) securityHeaders(next http.Handler) http.Handler {
 
 func (s *Server) analyticsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ua := r.UserAgent()
+		if strings.Contains(ua, "Render") || strings.Contains(ua, "render") {
+			next.ServeHTTP(w, r)
+			return
+		}
 		if r.Method == "GET" && !strings.HasPrefix(r.URL.Path, "/static/") && !strings.HasPrefix(r.URL.Path, "/admin") {
 			s.analytics.Track(r.URL.Path)
 		}
@@ -433,6 +443,19 @@ func (s *Server) handleComment(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/article/"+slug+"#comments", http.StatusSeeOther)
 	_ = comment
+}
+
+func (s *Server) handleShare(w http.ResponseWriter, r *http.Request) {
+	slug := r.PathValue("slug")
+
+	count := s.comments.AddShare(slug)
+	shareURL := fmt.Sprintf("https://scribblesplash.com/article/%s", slug)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]any{
+		"count": count,
+		"url":   shareURL,
+	})
 }
 
 type ArticleCard struct {

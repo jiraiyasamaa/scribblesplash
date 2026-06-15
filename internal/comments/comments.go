@@ -15,10 +15,11 @@ import (
 )
 
 type Manager struct {
-	mu          sync.RWMutex
-	dataDir     string
+	mu           sync.RWMutex
+	dataDir      string
 	commentCache map[string]*models.ArticleComments
 	likeCache    map[string]*models.ArticleLikes
+	shareCache   map[string]int
 }
 
 func New(dataDir string) (*Manager, error) {
@@ -26,13 +27,13 @@ func New(dataDir string) (*Manager, error) {
 		dataDir:      dataDir,
 		commentCache: make(map[string]*models.ArticleComments),
 		likeCache:    make(map[string]*models.ArticleLikes),
+		shareCache:   make(map[string]int),
 	}
 
-	if err := os.MkdirAll(filepath.Join(dataDir, "comments"), 0755); err != nil {
-		return nil, err
-	}
-	if err := os.MkdirAll(filepath.Join(dataDir, "likes"), 0755); err != nil {
-		return nil, err
+	for _, d := range []string{"comments", "likes", "shares"} {
+		if err := os.MkdirAll(filepath.Join(dataDir, d), 0755); err != nil {
+			return nil, err
+		}
 	}
 
 	return m, nil
@@ -77,6 +78,99 @@ func (m *Manager) GetComments(slug string) ([]models.Comment, error) {
 		}
 	}
 	return approved, nil
+}
+
+func (m *Manager) GetAllComments() ([]CommentWithArticle, error) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	dir := filepath.Join(m.dataDir, "comments")
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var result []CommentWithArticle
+	for _, e := range entries {
+		if e.IsDir() || !strings.HasSuffix(e.Name(), ".json") {
+			continue
+		}
+		slug := strings.TrimSuffix(e.Name(), ".json")
+		data, err := os.ReadFile(filepath.Join(dir, e.Name()))
+		if err != nil {
+			continue
+		}
+		var ac models.ArticleComments
+		if err := json.Unmarshal(data, &ac); err != nil {
+			continue
+		}
+		for _, c := range ac.Comments {
+			result = append(result, CommentWithArticle{
+				Comment:     c,
+				ArticleSlug: slug,
+			})
+		}
+	}
+	return result, nil
+}
+
+type CommentWithArticle struct {
+	models.Comment
+	ArticleSlug string `json:"article_slug"`
+}
+
+func (m *Manager) ApproveComment(slug, commentID string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	ac, err := m.loadComments(slug)
+	if err != nil {
+		return err
+	}
+	for i := range ac.Comments {
+		if ac.Comments[i].ID == commentID {
+			ac.Comments[i].Approved = true
+			return m.saveComments(slug, ac)
+		}
+	}
+	return fmt.Errorf("comment %s not found", commentID)
+}
+
+func (m *Manager) RejectComment(slug, commentID string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	ac, err := m.loadComments(slug)
+	if err != nil {
+		return err
+	}
+	for i := range ac.Comments {
+		if ac.Comments[i].ID == commentID {
+			ac.Comments = append(ac.Comments[:i], ac.Comments[i+1:]...)
+			return m.saveComments(slug, ac)
+		}
+	}
+	return fmt.Errorf("comment %s not found", commentID)
+}
+
+func (m *Manager) loadComments(slug string) (*models.ArticleComments, error) {
+	if cached, ok := m.commentCache[slug]; ok {
+		return cached, nil
+	}
+	path := filepath.Join(m.dataDir, "comments", slug+".json")
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	var ac models.ArticleComments
+	if err := json.Unmarshal(data, &ac); err != nil {
+		return nil, err
+	}
+	m.commentCache[slug] = &ac
+	return &ac, nil
 }
 
 func (m *Manager) AddComment(slug, name, email, body string) (*models.Comment, error) {
@@ -163,6 +257,14 @@ func (m *Manager) GetLikes(slug string) (int, error) {
 	return al.Count, nil
 }
 
+func (m *Manager) GetCommentCount(slug string) int {
+	comments, err := m.GetComments(slug)
+	if err != nil {
+		return 0
+	}
+	return len(comments)
+}
+
 func (m *Manager) AddLike(slug, ip string) (int, bool, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -217,6 +319,41 @@ func (m *Manager) HasLiked(slug, ip string) bool {
 		}
 	}
 	return false
+}
+
+func (m *Manager) AddShare(slug string) int {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	path := filepath.Join(m.dataDir, "shares", slug+".json")
+	count := 1
+	if data, err := os.ReadFile(path); err == nil {
+		json.Unmarshal(data, &count)
+		count++
+	}
+	data, _ := json.MarshalIndent(count, "", "  ")
+	os.WriteFile(path, data, 0644)
+	m.shareCache[slug] = count
+	return count
+}
+
+func (m *Manager) GetShares(slug string) int {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	if cached, ok := m.shareCache[slug]; ok {
+		return cached
+	}
+
+	path := filepath.Join(m.dataDir, "shares", slug+".json")
+	if data, err := os.ReadFile(path); err == nil {
+		var count int
+		if json.Unmarshal(data, &count) == nil {
+			m.shareCache[slug] = count
+			return count
+		}
+	}
+	return 0
 }
 
 func sanitizeHTML(s string) string {

@@ -1008,7 +1008,7 @@ img {
   padding: 1.5rem;
   background: var(--bg-alt);
   border-radius: 4px;
-  border-left: 3px solid var(--gold);
+  border-left: 3px solid var(--accent);
 }
 
 .about-content h2 {
@@ -1059,8 +1059,8 @@ img {
   color: var(--accent);
   padding: 2rem;
   margin: 2rem 0;
-  border-top: 2px solid var(--gold);
-  border-bottom: 2px solid var(--gold);
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
 }
 
 /* ─── Footer ─── */

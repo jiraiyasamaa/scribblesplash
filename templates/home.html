@@ -3,9 +3,9 @@
 {{define "content"}}
 <section class="hero">
   <div class="container">
-    <p class="hero-label">The Borderless World</p>
-    <h1 class="hero-title">Yesterday is ashes, tomorrow wood and only today the fire shines bright.</h1>
     <p class="hero-subtitle">An anthropological movement dedicated to the celebration of humanity as one species.</p>
+    <div class="hero-separator"></div>
+    <h1 class="hero-title">Yesterday is ashes, tomorrow wood and only today the fire shines bright.</h1>
   </div>
 </section>
 
@@ -20,10 +20,15 @@
       {{range $i, $a := .CurrentIssue.Articles}}
       <article class="magazine-card card-{{$i}}">
         <a href="/article/{{$a.Slug}}" class="card-link">
-          <div class="card-category">{{$a.Category}}</div>
-          <h3 class="card-title">{{$a.Title}}</h3>
-          <p class="card-excerpt">{{$a.Excerpt}}</p>
-          <p class="card-meta">{{$a.Date}} · {{$a.WordCount}} words</p>
+          <div class="card-image-wrap">
+            {{if $a.ImageURL}}<img class="card-img" src="{{$a.ImageURL}}" alt="" loading="lazy">{{end}}
+          </div>
+          <div class="card-body">
+            <div class="card-category">{{$a.Category}}</div>
+            <h3 class="card-title">{{$a.Title}}</h3>
+            <p class="card-excerpt">{{$a.Excerpt}}</p>
+            <p class="card-meta">{{$a.Date}} · {{$a.WordCount}} words</p>
+          </div>
         </a>
       </article>
       {{end}}
@@ -42,10 +47,13 @@
       {{range .Articles}}
       <article class="article-row">
         <a href="/article/{{.Slug}}" class="article-row-link">
-          <span class="article-row-category">{{.Category}}</span>
-          <h3 class="article-row-title">{{.Title}}</h3>
-          <p class="article-row-excerpt">{{.Excerpt}}</p>
-          <span class="article-row-date">{{.Date}}</span>
+          {{if .ImageURL}}<img class="article-row-img" src="{{.ImageURL}}" alt="" loading="lazy">{{end}}
+          <div class="article-row-body">
+            <span class="article-row-category">{{.Category}}</span>
+            <h3 class="article-row-title">{{.Title}}</h3>
+            <p class="article-row-excerpt">{{.Excerpt}}</p>
+            <span class="article-row-date">{{.Date}}</span>
+          </div>
         </a>
       </article>
       {{end}}

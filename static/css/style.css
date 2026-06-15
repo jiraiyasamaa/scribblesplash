@@ -13,6 +13,7 @@
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'Source Serif 4', Georgia, serif;
   --font-ui: 'Inter', -apple-system, sans-serif;
+  --font-handwritten: 'Caveat', 'Brush Script MT', cursive;
   --max-width: 1200px;
   --content-width: 720px;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
@@ -85,14 +86,14 @@ img {
 }
 
 .masthead-logo {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 6px;
+  font-family: var(--font-handwritten);
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
   color: var(--accent);
   text-decoration: none;
   display: block;
+  line-height: 1.1;
 }
 
 .masthead-tagline {
@@ -107,9 +108,10 @@ img {
 .header-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0.5rem 0;
   gap: 1rem;
+  position: relative;
 }
 
 .site-nav {
@@ -156,6 +158,8 @@ img {
   transition: background 0.2s, border-color 0.2s;
   color: var(--text);
   flex-shrink: 0;
+  position: absolute;
+  right: 0;
 }
 
 .theme-toggle:hover {
@@ -183,34 +187,31 @@ img {
   margin: 2rem auto 0;
 }
 
-.hero-label {
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.8rem, 7vw, 5rem);
-  font-weight: 900;
-  color: var(--accent);
-  line-height: 1.05;
-  margin-bottom: 1.5rem;
-  letter-spacing: 1px;
-}
-
 .hero-subtitle {
-  font-size: 1.2rem;
-  color: var(--text-light);
+  font-size: 1.1rem;
+  color: var(--text-muted);
   max-width: 600px;
   margin: 0 auto;
   font-style: italic;
   line-height: 1.7;
   font-weight: 400;
+}
+
+.hero-separator {
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+  margin: 1.5rem auto;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  font-style: italic;
 }
 
 /* ─── Section ─── */
@@ -264,7 +265,6 @@ img {
 
 .card-link {
   display: block;
-  padding: 1.75rem;
   text-decoration: none;
   color: inherit;
   height: 100%;
@@ -273,6 +273,26 @@ img {
 
 .card-link:hover {
   background: var(--bg-alt);
+}
+
+.card-image-wrap {
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.card-link:hover .card-img {
+  transform: scale(1.03);
+}
+
+.card-body {
+  padding: 1.25rem 1.75rem;
 }
 
 .card-category {
@@ -322,9 +342,22 @@ img {
 .card-0 .card-link {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 2rem;
   align-items: center;
+}
+
+.card-0 .card-image-wrap {
+  height: 100%;
+  min-height: 260px;
+}
+
+.card-0 .card-img {
+  height: 100%;
+  min-height: 260px;
+  object-fit: cover;
+}
+
+.card-0 .card-body {
+  padding: 2rem;
 }
 
 .card-0 .card-category {
@@ -363,11 +396,26 @@ img {
 }
 
 .article-row-link {
-  display: block;
-  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
   text-decoration: none;
   color: inherit;
   height: 100%;
+}
+
+.article-row-img {
+  width: 120px;
+  min-height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.article-row-body {
+  padding: 1.25rem 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .article-row-category {
@@ -1009,8 +1057,8 @@ img {
     grid-template-columns: 1fr;
   }
   .masthead-logo {
-    font-size: 1.4rem;
-    letter-spacing: 4px;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
   }
   .masthead-tagline {
     font-size: 0.55rem;
@@ -1025,7 +1073,7 @@ img {
     padding: 2.5rem 0 2rem;
   }
   .hero-title {
-    font-size: clamp(2rem, 10vw, 2.8rem);
+    font-size: clamp(1.4rem, 6vw, 1.8rem);
   }
   .section {
     padding: 2.5rem 0;
@@ -1033,8 +1081,14 @@ img {
   .section-title {
     font-size: 1.6rem;
   }
+  .card-0 .card-img {
+    min-height: 180px;
+  }
   .card-0 .card-title {
     font-size: 1.2rem;
+  }
+  .article-row-img {
+    width: 80px;
   }
   .comment-form-row {
     flex-direction: column;
